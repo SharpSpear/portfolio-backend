@@ -1,0 +1,25 @@
+const axios = require("axios");
+const {
+  InternalServerException,
+} = require("http-exception-transformer/exceptions");
+
+require("dotenv").config();
+
+const getBlogs = async (page) => {
+  console.log("page", page);
+  try {
+    const response = await axios.get(
+      `https://itsrakesh-server.herokuapp.com/api/blog/blogs/${page}`,
+      {
+        headers: {
+          "api-key": process.env.DEV_API_KEY,
+        },
+      }
+    );
+    return response.data;
+  } catch (err) {
+    throw new InternalServerException();
+  }
+};
+
+module.exports = { getBlogs };
